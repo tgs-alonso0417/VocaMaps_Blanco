@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="VocaMaps · Explora un prototipo interactivo 3D del Módulo A de la Preparatoria Vocacional UdeG. Busca salones, oficinas y servicios por piso." />
+  <title>VocaMaps | Mapa de la Vocacional</title>
+  <style>
+:root{--bg:#07121f;--bg2:#0a1928;--panel:#0d2030;--panel2:#102638;--edge:#ffffff19;--muted:#92a7b8;--white:#eef8ff;--teal:#54e9c6;--blue:#63b5ff;--purple:#aaadff;--shadow:0 18px 60px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px;background:var(--bg);color:var(--white);font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}a{color:inherit;text-decoration:none}svg{display:block}
+body:before{content:"";position:fixed;pointer-events:none;inset:0;z-index:-1;background:radial-gradient(ellipse 48% 34% at 64% 0,#143c50a0,transparent 85%),radial-gradient(ellipse 35% 33% at 0 40%,#1730546d,transparent 95%)}
+.shell{max-width:1580px;padding:0 28px;margin:auto}.topbar{position:relative;z-index:40;background:#091624e9;border-bottom:1px solid #ffffff14;backdrop-filter:blur(20px)}.top-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:25px}.brand{display:flex;align-items:center;gap:12px;min-width:200px}.brand-mark{width:44px;height:44px;display:grid;place-items:center;background:linear-gradient(135deg,#5bf6ce,#4aa9f8);border-radius:13px;color:#052435;font-size:21px;font-weight:1000;letter-spacing:-2px;box-shadow:0 3px 22px #35cba742}.brand-name{font-size:20px;font-weight:850;letter-spacing:-.9px}.brand-name strong{color:var(--teal)}.brand-sub{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:3px}.mainnav{display:flex;gap:7px;padding:5px;background:#ffffff06;border:1px solid #ffffff0b;border-radius:15px}.mainnav a{display:flex;gap:9px;align-items:center;font-size:13px;font-weight:700;color:#a7bccb;padding:12px 17px;border-radius:11px;transition:.2s}.mainnav a:hover,.mainnav a.active{color:#ebfff9;background:#1d3948}.nav-right{display:flex;align-items:center;gap:10px}.version{color:#9dc9bd;background:#18372f;padding:9px 11px;border-radius:10px;font-size:11px;font-weight:800;letter-spacing:.4px;white-space:nowrap}.mini-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px var(--teal);margin-right:6px}
+.intro{padding:35px 0 27px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px}.eyebrow{display:flex;align-items:center;gap:9px;color:var(--teal);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.eyebrow:before{content:"";width:18px;height:2px;background:var(--teal)}h1{font-size:clamp(30px,3.8vw,48px);line-height:1.12;margin:12px 0 9px;font-weight:850;letter-spacing:-1.8px}h1 span{background:linear-gradient(95deg,#55f3ce,#69b6ff);background-clip:text;-webkit-background-clip:text;color:transparent}.intro p{max-width:660px;line-height:1.65;color:#99b1c1;font-size:14px;margin:0}.stats{display:flex;gap:22px;padding:17px 23px;background:#102535ba;border:1px solid var(--edge);border-radius:17px;flex-shrink:0}.stat strong{font-size:22px;font-weight:850;display:block;letter-spacing:-.7px}.stat span{color:var(--muted);font-size:11px;white-space:nowrap}.stat+.stat{border-left:1px solid var(--edge);padding-left:22px}
+.workspace{display:grid;grid-template-columns:278px minmax(0,1fr) 285px;gap:17px;align-items:stretch;padding-bottom:28px}.panel{border:1px solid var(--edge);border-radius:22px;background:linear-gradient(160deg,#122739f1,#0b1d2bed);box-shadow:var(--shadow);min-width:0}.directory{display:flex;flex-direction:column;min-height:680px;overflow:hidden}.pane-head{padding:21px 19px 16px;border-bottom:1px solid var(--edge)}.pane-head h2,.details h2{font-size:17px;letter-spacing:-.4px;margin:0}.pane-caption{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.6}.input-wrap{position:relative;margin-top:18px}.input-wrap .search-icon{position:absolute;top:12px;left:13px;color:#86aabd}.input-wrap input{border:1px solid #ffffff22;color:#fff;background:#071826;border-radius:12px;height:43px;padding:0 36px 0 39px;width:100%;outline:none;font-size:12px;transition:.2s}.input-wrap input:focus{border-color:#55e7c485;box-shadow:0 0 0 3px #54e9c512}.input-wrap input::placeholder{color:#6e879a}.clear-search{position:absolute;right:7px;top:7px;width:29px;height:29px;background:transparent;color:#99b2c4;border:0;border-radius:8px;display:none}.clear-search.visible{display:grid;place-items:center}.floor-filter{display:flex;gap:5px;margin-top:14px}.floor-filter button{flex:1;min-width:0;border:1px solid transparent;padding:9px 3px;border-radius:8px;background:#ffffff09;color:#9eb4c4;font-size:11px;font-weight:750}.floor-filter button:hover{background:#ffffff16}.floor-filter button.active{color:#093029;background:var(--teal)}.directory-body{overflow-y:auto;flex:1;min-height:100px;padding:13px 11px 19px}.directory-body::-webkit-scrollbar{width:5px}.directory-body::-webkit-scrollbar-thumb{background:#486373;border-radius:20px}.group-title{display:flex;align-items:center;justify-content:space-between;text-transform:uppercase;letter-spacing:1.5px;font-size:10px;font-weight:900;color:#749aac;margin:15px 8px 9px}.group-title span:last-child{color:#627b8c;letter-spacing:0}.space-item{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:11px 9px;background:none;border:1px solid transparent;border-radius:12px;color:#d3e5ef;transition:background .18s,border-color .18s}.space-item:hover{background:#ffffff0b}.space-item.active{background:#1e4a4a;border-color:#46caad59}.space-symbol{width:35px;height:35px;display:grid;place-items:center;border:1px solid #ffffff12;border-radius:11px;background:#ffffff0b;flex:none;color:#85c4e8}.space-item.active .space-symbol{background:#2d776b;color:#85ffe2}.space-text{flex:1;min-width:0}.space-text strong{display:block;font-size:11px;font-weight:730;line-height:1.4}.space-text small{font-size:10px;color:#7d9bac;margin-top:2px;display:block}.chevron{color:#678a9c}.empty{padding:25px 15px;text-align:center;color:#8fa8bb;font-size:12px;line-height:1.6}.directory-foot{padding:14px 18px;border-top:1px solid var(--edge);font-size:11px;color:#88a3b4}.directory-foot b{color:#cde2ee}
+.map-card{min-height:680px;display:flex;flex-direction:column;overflow:hidden;background:#0c1c29}.map-head{min-height:69px;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;gap:13px}.map-title{font-size:15px;font-weight:850;letter-spacing:-.4px}.map-sub{font-size:11px;color:#90aabb;margin-top:5px}.map-tag{font-size:11px;display:flex;align-items:center;gap:6px;color:#a5f3da;background:#1a463e;border:1px solid #3ec3a056;border-radius:100px;padding:8px 10px;white-space:nowrap}.map-stage{position:relative;flex:1;min-height:495px;background:radial-gradient(ellipse at 40% 35%,#c2dbea,#7aa9c8);overflow:hidden}.map-stage #scene{position:absolute;inset:0;touch-action:none}.map-stage canvas{display:block;width:100%;height:100%}.map-loading{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:13px;text-align:center;background:linear-gradient(140deg,#cee5e9,#82b8cf);color:#153a4a;font-size:14px;font-weight:750;transition:opacity .4s}.map-loading.hidden{opacity:0;pointer-events:none}.load-ring{width:38px;height:38px;border:3px solid #23536b28;border-top-color:#1e566c;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.stage-logo{position:absolute;top:16px;left:17px;z-index:2;background:#0a2433bc;color:white;border:1px solid #ffffff3d;border-radius:11px;padding:10px 12px;backdrop-filter:blur(10px);font-size:11px;font-weight:850;pointer-events:none;letter-spacing:.25px}.stage-logo span{color:#8dfce2}.stage-tip{position:absolute;bottom:13px;left:50%;z-index:2;transform:translateX(-50%);font-size:10px;color:#e5faff;border:1px solid #ffffff26;background:#071e2ac9;padding:10px 14px;border-radius:50px;text-align:center;white-space:nowrap;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;pointer-events:none;backdrop-filter:blur(10px)}.view-switch{display:flex;gap:5px;background:#061622;flex-wrap:wrap;border-top:1px solid #ffffff16;padding:13px 16px}.view-switch button{border:1px solid transparent;background:#ffffff09;color:#a8bdca;border-radius:9px;padding:10px 12px;font-size:11px;font-weight:800;white-space:nowrap}.view-switch button:hover{background:#ffffff1a}.view-switch button.active{background:#1c5554;color:#9affdc;border-color:#48d2b57e}.view-switch .push{margin-left:auto}.map-footer{display:flex;align-items:center;gap:12px;border-top:1px solid var(--edge);padding:12px 18px;color:#84a6ba;font-size:11px;line-height:1.5}.map-footer strong{color:#d5ebf4}.map-footer svg{color:#72c9c2;flex:none}
+.right-col{min-width:0;display:flex;flex-direction:column;gap:17px}.details{padding:21px 18px}.section-kicker{text-transform:uppercase;letter-spacing:1.6px;font-size:10px;color:#71cab9;font-weight:900;margin:0 0 11px}.detail-image{margin-top:19px;height:113px;display:flex;align-items:center;justify-content:center;gap:14px;border:1px solid #65d5c13f;border-radius:14px;background:radial-gradient(circle at 75% 8%,#3ca0a13b,transparent 60%),linear-gradient(145deg,#234957,#113040)}.detail-image .building-emoji{font-size:53px;filter:drop-shadow(0 5px 20px #0f131c59)}.detail-image small{font-size:11px;line-height:1.6;color:#bfd8e7}.detail-image strong{display:block;color:#e9fff7;font-size:16px;letter-spacing:-.4px}.detail-name{font-size:19px;letter-spacing:-.6px;line-height:1.3;margin:18px 0 8px}.detail-note{color:#9db4c3;font-size:12px;line-height:1.65;margin:0 0 16px}.detail-meta{display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--edge);padding-top:15px}.meta-line{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;color:#8ca5b4}.meta-line b{color:#d9f1ee;font-weight:800;text-align:right}.detail-actions{display:grid;gap:9px;margin-top:19px}.primary-btn{background:linear-gradient(105deg,#53ebc7,#54b8ee);border:0;color:#052b31;font-size:12px;font-weight:900;padding:13px;border-radius:11px;box-shadow:0 7px 25px #2fc7b42a}.primary-btn:hover{filter:brightness(1.08)}.outline-btn{padding:12px;background:#ffffff08;border:1px solid #ffffff24;border-radius:10px;color:#d8e9f2;font-size:11px;font-weight:800}.outline-btn:hover{background:#ffffff15}.help-card{padding:21px 19px}.steps{display:grid;gap:15px;margin-top:17px}.step{display:flex;gap:11px;align-items:flex-start}.step-index{border-radius:9px;background:#1b4a48;color:#77f1cf;display:grid;place-items:center;width:29px;height:29px;font-size:12px;font-weight:850;flex:none}.step strong{font-size:11px;display:block;margin:0 0 3px}.step p{font-size:10px;line-height:1.5;color:#92afbe;margin:0}.help-badge{font-size:11px;color:#a2c6e0;background:#193447;padding:11px;border-radius:10px;margin-top:19px;line-height:1.5}.help-badge b{color:#e6f7ff}
+.about{margin:0 auto 38px;background:#0d2231;border:1px solid var(--edge);border-radius:20px;padding:23px 25px;display:flex;justify-content:space-between;gap:25px;align-items:center}.about b{font-size:13px}.about p{color:#91acbd;font-size:11px;margin:7px 0 0;line-height:1.5}.about-mark{white-space:nowrap;color:#76ead5;font-size:11px;font-weight:800}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);z-index:80;color:#dffff7;background:#17493e;border:1px solid #73efd17a;border-radius:12px;padding:13px 19px;font-size:12px;box-shadow:0 13px 40px #0008;opacity:0;pointer-events:none;transition:.25s}.toast.visible{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1260px){.workspace{grid-template-columns:245px minmax(0,1fr)}.right-col{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.directory,.map-card{min-height:640px}.map-stage{min-height:480px}.stats{gap:14px;padding:13px 16px}.stat+.stat{padding-left:14px}}
+@media(max-width:900px){.shell{padding-left:17px;padding-right:17px}.intro{align-items:flex-start}.stats{display:none}.workspace{grid-template-columns:minmax(0,1fr)}.map-card{grid-row:1;min-height:540px}.directory{grid-row:2;min-height:380px;max-height:490px}.right-col{grid-row:3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.map-stage{min-height:440px}.mainnav{display:none}.intro{padding:27px 0 22px}}
+@media(max-width:600px){.top-inner{height:67px}.brand{min-width:0}.brand-mark{width:39px;height:39px;font-size:19px}.brand-name{font-size:18px}.brand-sub{font-size:9px}.version{font-size:9px;padding:8px}.shell{padding-left:13px;padding-right:13px}.intro{padding:23px 0 19px}.intro h1{font-size:30px;letter-spacing:-1.2px}.intro p{font-size:12px;line-height:1.55}.workspace{gap:13px}.panel{border-radius:17px}.map-head{padding:14px 14px}.map-title{font-size:13px}.map-sub{font-size:10px}.map-tag{font-size:9px;padding:7px 9px}.map-stage{min-height:380px}.map-card{min-height:0}.stage-tip{font-size:9px;width:calc(100% - 20px)}.view-switch{padding:10px;gap:5px}.view-switch button{padding:10px 11px;font-size:10px;flex-grow:1}.view-switch .push{margin-left:0}.right-col{display:flex}.directory{max-height:490px}.about{padding:17px;display:block}.about-mark{margin-top:14px;display:block}.detail-image{height:95px}.map-footer{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  
+/* VocaMaps versión clara - estilos sencillos pensados para un proyecto escolar */
+:root{--bg:#f6f8fb;--bg2:#fff;--panel:#fff;--panel2:#f7f9fc;--edge:#dce3ec;--muted:#667688;--white:#233348;--teal:#2369b5;--blue:#2369b5;--purple:#2369b5;--shadow:0 2px 10px rgba(26,57,87,.05)}
+html{scroll-behavior:smooth}
+body{background:#f6f8fb;color:#25364c;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+body:before{display:none}
+button,input{font-family:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #226ab3;outline-offset:2px}
+a{color:inherit}
+.shell{max-width:1440px;padding-left:30px;padding-right:30px}
+.topbar{background:#fff;backdrop-filter:none;box-shadow:none;border-bottom:1px solid #dfe5ec}
+.top-inner{height:68px;gap:16px}
+.brand{gap:10px;min-width:190px}
+.brand-mark{width:39px;height:39px;border-radius:7px;background:#1c5d9f;color:white;box-shadow:none;letter-spacing:-1px;font-weight:750;font-size:16px}
+.brand-name{font-size:19px;letter-spacing:-.3px;font-weight:750;color:#1d3248}
+.brand-name strong{color:#286dab}
+.brand-sub{color:#7a899a;letter-spacing:.7px;font-size:9px}
+.mainnav{border:0;background:none;border-radius:0;gap:4px;padding:0}
+.mainnav a{border-radius:6px;color:#546274;font-weight:600;font-size:13px;padding:11px 14px}
+.mainnav a.active,.mainnav a:hover{background:#eff5fc;color:#1a5d9b}
+.version{background:#eef4f9;color:#54708b;font-size:11px;font-weight:600;border-radius:5px;letter-spacing:0;padding:9px 11px}
+.intro{padding:35px 0 25px;align-items:flex-end;gap:16px}
+.eyebrow{font-size:11px;color:#597e9c;letter-spacing:.1px;font-weight:600;text-transform:none;gap:0}
+.eyebrow:before{display:none}
+h1{font-size:clamp(30px,3.3vw,40px);font-weight:750;letter-spacing:-1px;margin:9px 0 12px;line-height:1.14;color:#183c62}
+h1 span{color:#1d68aa;background:none;-webkit-text-fill-color:currentColor}
+.intro p{color:#647488;font-size:14px;max-width:660px;line-height:1.55}
+.stats{background:transparent;border:0;border-radius:0;padding:0 0 5px;box-shadow:none;display:flex;gap:10px;align-items:center;flex-shrink:0}
+.stats span{border:1px solid #dce4ec;background:#fff;color:#68788c;font-size:11px;white-space:nowrap;padding:9px 11px;border-radius:5px}
+.stats b{font-weight:700}
+.workspace{grid-template-columns:265px minmax(0,1fr) 260px;gap:14px;align-items:start;padding-bottom:22px}
+.panel{background:#fff;border:1px solid #dfe5ec;border-radius:9px;box-shadow:0 2px 10px rgba(18,43,67,.035)}
+.directory{min-height:610px;overflow:hidden}
+.pane-head{padding:19px 16px 15px;border-bottom:1px solid #e8edf3}
+.pane-head h2,.details h2{font-size:16px;letter-spacing:0;font-weight:700;color:#1d3853}
+.pane-caption{color:#748294;font-size:12px;margin-top:5px}
+.input-wrap{margin-top:16px}
+.input-wrap .search-icon{color:#778b9b}
+.input-wrap input{border:1px solid #cfd9e4;border-radius:6px;background:#fff;color:#243548;height:42px;font-size:12px}
+.input-wrap input:focus{border-color:#2f74b7;box-shadow:0 0 0 2px #d9eafb}
+.input-wrap input::placeholder{color:#8290a1}
+.clear-search{color:#647486}
+.floor-filter{gap:5px;margin-top:12px}
+.floor-filter button{background:#f2f5f9;border:1px solid #e5eaf0;color:#57697d;border-radius:6px;font-weight:600;font-size:11px;padding:8px 3px}
+.floor-filter button.active,.floor-filter button:hover{background:#246bb1;border-color:#246bb1;color:#fff}
+.directory-body{padding:10px 9px 18px}
+.directory-body::-webkit-scrollbar-thumb{background:#c8d3de}
+.group-title{color:#738399;font-size:10px;letter-spacing:.4px;font-weight:700;margin:12px 8px 7px}
+.group-title span:last-child{color:#9ca9b8}
+.space-item{border-radius:7px;padding:9px 8px;color:#294056;gap:9px}
+.space-item:hover{background:#f4f8fd}
+.space-item.active{background:#eaf3fc;border-color:#a8c5e4}
+.space-symbol{width:32px;height:32px;border-radius:6px;color:#6c8198;background:#f3f6fa;border:1px solid #e5ebf1;font-size:16px}
+.space-item.active .space-symbol{background:#d5e8f9;color:#1d639f}
+.space-text strong{font-size:11px;font-weight:700}
+.space-text small{color:#778698;font-size:10px}
+.chevron{color:#8ea0b1}
+.empty{color:#718196}
+.directory-foot{padding:13px 16px;color:#74859b;border-top:1px solid #e7ecf2}
+.directory-foot b{color:#305f8e}
+.map-card{background:#fff;min-height:610px}
+.map-head{min-height:64px;padding:15px 17px}
+.map-title{font-size:15px;color:#203a55;letter-spacing:0;font-weight:750}
+.map-sub{color:#7a8b9c;font-size:11px;margin-top:5px}
+.map-tag{background:#ecf3fa;color:#416f9c;border:1px solid #d3e2f1;font-size:11px;border-radius:5px;padding:7px 9px;font-weight:600}
+.map-stage{min-height:425px;background:#e9eff5}
+.map-loading{background:#e7edf4;color:#486177;font-size:13px}
+.load-ring{border:3px solid #cad9e8;border-top-color:#2569ab}
+.stage-logo{background:#ffffffef;color:#355d82;border:1px solid #e0e7ef;border-radius:5px;backdrop-filter:none;box-shadow:0 1px 2px #0001;padding:8px 10px;letter-spacing:.3px;font-size:10px}
+.stage-tip{background:#fff;color:#61768b;border:1px solid #e0e7ef;border-radius:6px;backdrop-filter:none;box-shadow:0 1px 3px #0001}
+.view-switch{background:#fff;border-top:1px solid #e6ebf0;padding:11px 13px;gap:6px}
+.view-switch button{background:#f3f6f9;border:1px solid #e3e9ef;color:#617487;border-radius:6px;padding:9px 11px;font-weight:600;font-size:11px}
+.view-switch button.active{background:#246bb1;color:white;border-color:#246bb1}
+.view-switch button:hover{background:#dceaf7;color:#1e5e99;border-color:#c0d7ee}
+.view-switch button.active:hover{background:#185895;color:#fff}
+.map-footer{border-top:1px solid #e8edf2;padding:12px 16px;color:#728294;font-size:10px}
+.map-footer strong{color:#405970}
+.map-footer svg{color:#3e78aa}
+.right-col{gap:14px}
+.details{padding:18px 16px}
+.section-kicker{font-size:11px;letter-spacing:0;text-transform:none;color:#6e7f90;font-weight:600;margin-bottom:6px}
+.detail-image{margin-top:15px;height:82px;gap:10px;background:#f3f7fb;border:1px solid #e1e9f1;border-radius:6px}
+.detail-image .building-emoji{font-size:29px;filter:none}
+.detail-image strong{color:#2f4a68;font-size:14px}
+.detail-image small{color:#72879c;font-size:11px}
+.detail-name{font-size:17px;letter-spacing:0;color:#203c58;margin:16px 0 8px}
+.detail-note{color:#65798c;font-size:12px;line-height:1.6;margin-bottom:14px}
+.detail-meta{border-top:1px solid #e4ebf1;padding-top:13px;gap:9px}
+.meta-line{color:#778799;font-size:11px}
+.meta-line b{color:#35506b;font-weight:700}
+.detail-actions{gap:7px;margin-top:17px}
+.primary-btn{border:1px solid #1f65a7;background:#246bb1;color:white;border-radius:6px;box-shadow:none;font-size:12px;font-weight:700;padding:12px}
+.primary-btn:hover{background:#185995;filter:none}
+.outline-btn{border:1px solid #d1dce6;background:#fff;color:#44617d;border-radius:6px;font-weight:600;font-size:11px;padding:11px}
+.outline-btn:hover{background:#f2f6fb}
+.help-card{padding:18px 16px}
+.help-card h2{font-size:15px;font-weight:700;color:#284460}
+.steps{gap:13px;margin-top:17px}
+.step{gap:9px}
+.step-index{border-radius:5px;background:#ebf2f9;color:#2e70ac;width:25px;height:25px;font-weight:700;font-size:11px}
+.step strong{font-size:11px;color:#36516b}
+.step p{font-size:11px;color:#7b8996}
+.help-badge{border:1px solid #e3eaf0;background:#f5f8fb;border-radius:6px;color:#718094;font-size:11px;margin-top:16px}
+.help-badge b{color:#385a78}
+.about{background:#fff;border:1px solid #e0e6ed;border-radius:8px;margin-bottom:32px;padding:18px 21px;box-shadow:none}
+.about b{font-size:12px;color:#35506c}
+.about p{font-size:11px;color:#728194}
+.about-mark{color:#7b8e9d;font-weight:500;font-size:11px}
+.toast{background:#214e79;color:white;border-color:#214e79;border-radius:6px;box-shadow:0 2px 14px #21384838}
+@media(max-width:1260px){.workspace{grid-template-columns:245px minmax(0,1fr)}.right-col{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.directory,.map-card{min-height:610px}.map-stage{min-height:460px}}
+@media(max-width:900px){.shell{padding-left:18px;padding-right:18px}.intro{padding:26px 0 20px}.workspace{grid-template-columns:minmax(0,1fr)}.map-card{grid-row:1;min-height:0}.directory{grid-row:2;min-height:370px;max-height:500px}.right-col{grid-row:3;display:grid;grid-template-columns:1fr 1fr}.map-stage{min-height:420px}.stats{display:flex}}
+@media(max-width:600px){.shell{padding-left:14px;padding-right:14px}.top-inner{height:61px}.brand-mark{width:35px;height:35px;font-size:14px}.brand-name{font-size:17px}.brand-sub{font-size:9px}.version{font-size:10px;padding:7px 8px}.intro{display:block;padding:25px 0 18px}.intro h1{font-size:30px;letter-spacing:-.8px}.intro p{font-size:13px}.stats{display:flex;gap:6px;margin-top:14px}.stats span{padding:7px 8px;font-size:10px}.workspace{gap:13px}.panel{border-radius:8px}.map-head{padding:13px 12px;gap:7px}.map-title{font-size:13px}.map-sub{font-size:10px}.map-tag{font-size:9px;padding:6px 7px}.map-stage{min-height:340px}.stage-tip{font-size:9px}.view-switch{gap:6px;padding:9px}.view-switch button{flex-grow:1;font-size:10px;padding:9px 8px}.right-col{display:flex}.directory{max-height:495px}.about{padding:16px;display:block}.about-mark{margin-top:12px}.map-footer{padding:10px 12px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="shell top-inner">
+<a class="brand" href="#inicio" aria-label="VocaMaps, ir al inicio"><div class="brand-mark" aria-hidden="true">VM</div><div><div class="brand-name">Voca<strong>Maps</strong></div><div class="brand-sub">Vocacional · UdeG</div></div></a>
+<nav class="mainnav" aria-label="Secciones"><a class="active" href="#explorar">Mapa 3D</a><a href="#directorio">Directorio</a><a href="#acerca">Sobre el proyecto</a></nav>
+<div class="nav-right"><span class="version">Versión de prueba</span></div>
+</div></header>
+<main class="shell" id="inicio">
+<section class="intro" aria-label="Introducción"><div><div class="eyebrow">Proyecto escolar · Escuela Vocacional UdeG</div><h1>Mapa de la <span>Vocacional</span></h1><p>Busca salones, oficinas y servicios del Módulo A. Selecciona un espacio y revisa dónde está en el modelo 3D.</p></div><div class="stats"><span>3 pisos</span><span><b id="stat-spaces">20</b> espacios</span><span>Mapa 3D</span></div></section>
+<section class="workspace" id="explorar" aria-label="Explorador del edificio">
+<aside class="panel directory" id="directorio">
+<div class="pane-head"><h2>Directorio de espacios</h2><p class="pane-caption">Busca por nombre o por piso.</p><div class="input-wrap"><svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="space-search" type="search" placeholder="Buscar salón, oficina, servicio..." aria-label="Buscar espacios" autocomplete="off"/><button class="clear-search" id="clear-search" aria-label="Limpiar búsqueda">✕</button></div><div class="floor-filter" role="group" aria-label="Filtrar por piso"><button data-filter="all" class="active">Todos</button><button data-filter="1">PB</button><button data-filter="2">Piso 2</button><button data-filter="3">Piso 3</button></div></div>
+<div class="directory-body" id="directory-list" aria-live="polite"></div><div class="directory-foot"><b id="results-count">18</b> espacios disponibles para explorar</div>
+</aside>
+<section class="panel map-card" aria-label="Modelo tridimensional del edificio"><div class="map-head"><div><div class="map-title">Modelo 3D del Módulo A</div><div class="map-sub">Modelo 3D interactivo · Ubicación orientativa</div></div><span class="map-tag">3D interactivo</span></div>
+<div class="map-stage" id="map-stage"><div id="scene" aria-label="Modelo tridimensional interactivo del edificio" role="application"></div><div class="map-loading" id="map-loading"><span class="load-ring"></span><span id="loading-text">Cargando el mapa 3D…</span></div><div class="stage-logo">MÓDULO A</div><div class="stage-tip" id="hint">Arrastra para girar · Pellizca para hacer zoom · Toca una puerta</div></div>
+<div class="view-switch" role="group" aria-label="Mostrar piso en 3D"><button class="active" data-level="all">Edificio completo</button><button data-level="0">Planta baja</button><button data-level="1">Piso 2</button><button data-level="2">Piso 3</button><button class="push" id="reset" title="Restablecer cámara">↻ &nbsp;Reiniciar</button><button id="walk" title="Activar vista de recorrido para teclado">▣ &nbsp;Recorrer</button></div>
+<div class="map-footer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/></svg><span><strong>Nota:</strong> La distribución es un prototipo basado en croquis y fotografías. Las ubicaciones son aproximadas; verifica la señalización real.</span></div>
+</section>
+<aside class="right-col">
+<section class="panel details" id="detalle"><p class="section-kicker">Información del espacio</p><h2>Ubicación</h2><div class="detail-image"><span class="building-emoji" id="detail-emoji">🏫</span><div><strong id="detail-hero">Módulo A</strong><small id="detail-hero-sub">Explora la Vocacional<br/>a tu manera</small></div></div><h3 class="detail-name" id="detail-name">Selecciona un espacio</h3><p class="detail-note" id="detail-description">Busca en el directorio o toca una puerta en el modelo 3D para ver información y localizarla en el edificio.</p><div class="detail-meta"><div class="meta-line"><span>Nivel</span><b id="detail-floor">—</b></div><div class="meta-line"><span>Tipo de área</span><b id="detail-type">—</b></div><div class="meta-line"><span>Modelo</span><b>Referencia visual 3D</b></div></div><div class="detail-actions"><button class="primary-btn" id="focus-space" disabled>Ver en el mapa 3D</button><button class="outline-btn" id="copy-space" disabled>Copiar ubicación</button></div></section>
+<section class="panel help-card"><p class="section-kicker">Guía rápida</p><h2>¿Cómo se utiliza?</h2><div class="steps"><div class="step"><div class="step-index">01</div><div><strong>Busca tu destino</strong><p>Escribe el nombre de un salón, oficina o servicio.</p></div></div><div class="step"><div class="step-index">02</div><div><strong>Selecciona el piso</strong><p>Cambia entre los tres niveles del edificio.</p></div></div><div class="step"><div class="step-index">03</div><div><strong>Explora el modelo</strong><p>Arrastra para girar y toca las puertas para identificarlas.</p></div></div></div><div class="help-badge"><b>Consejo:</b> En computadora puedes activar «Recorrer» y moverte con WASD o las flechas.</div></section>
+</aside>
+</section>
+<section class="about" id="acerca"><div><b>VocaMaps · Proyecto escolar</b><p>Mapa orientativo del Módulo A, creado para facilitar la ubicación de espacios. No sustituye la señalización oficial de la escuela.</p></div><span class="about-mark">VocaMaps · Versión de prueba</span></section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xbad4e7);scene.fog=new THREE.Fog(0xbad4e7,45,100);
+const viewport=document.getElementById('scene');
+const camera=new THREE.PerspectiveCamera(58,viewport.clientWidth/viewport.clientHeight,.1,180);camera.position.set(22,17,29);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(viewport.clientWidth,viewport.clientHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.target.set(0,4,0);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.49;controls.minDistance=3;controls.maxDistance=75;
+scene.add(new THREE.HemisphereLight(0xf8fbff,0x74806c,2));const sun=new THREE.DirectionalLight(0xfff0d6,2.1);sun.position.set(-12,28,16);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
+const mat=(c,extra={})=>new THREE.MeshStandardMaterial({color:c,roughness:.85,...extra});const cream=mat('#ead5a5'),beams=mat('#e7d4ad'),brick=mat('#873e37'),brickLine=mat('#9b524a'),red=mat('#b72237',{metalness:.25}),metal=mat('#b5c0c7',{metalness:.65,roughness:.35}),glass=mat('#477483',{transparent:true,opacity:.43,roughness:.12,metalness:.1,side:THREE.DoubleSide}),dark=mat('#303c48'),slate=mat('#666b70'),groundMat=mat('#7b9673'),white=mat('#f4f0df'),blue=mat('#365b83');
+const groups=[new THREE.Group(),new THREE.Group(),new THREE.Group()];groups.forEach(g=>scene.add(g));const staticGroup=new THREE.Group();scene.add(staticGroup);const selectable=[];let selected=null;
+function box(parent,w,h,d,x,y,z,m,cast=true){let mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh}
+function rod(parent,a,b,r,m){const v=new THREE.Vector3(...a),q=new THREE.Vector3(...b),delta=q.clone().sub(v);const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,delta.length(),7),m);mesh.position.copy(v.add(q).multiplyScalar(.5));mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());parent.add(mesh);return mesh}
+function signTexture(title,bg='#312363',fg='#ffffff'){const c=document.createElement('canvas');c.width=512;c.height=160;const ctx=c.getContext('2d');ctx.fillStyle=bg;ctx.fillRect(0,0,512,160);ctx.fillStyle='#ed7245';ctx.fillRect(0,0,30,160);ctx.fillStyle=fg;ctx.font='bold 42px Arial';ctx.textAlign='center';const lines=title.length>17?title.split(' '):[title];if(lines.length>1){ctx.font='bold 30px Arial';const half=Math.ceil(lines.length/2);ctx.fillText(lines.slice(0,half).join(' '),270,67);ctx.fillText(lines.slice(half).join(' '),270,110)}else ctx.fillText(title,270,98);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return new THREE.MeshBasicMaterial({map:t,side:THREE.DoubleSide})}
+const length=32,depth=7.8,front=depth/2;box(staticGroup,49,.15,30,0,-.2,2,groundMat,false);
+// Tres niveles; el modelo es esquemático, no a escala medida.
+const floorH=3.75;
+// Fachadas trazadas de izquierda a derecha mirando de frente al edificio.
+// Coordenadas aproximadas: los croquis no incluyen medidas exactas.
+const layouts=[
+ [
+  {x:-14.7,w:2.3,name:'Oficialía',type:'official'},
+  {x:-11.1,w:5.1,name:'Dirección y Coordinación',type:'office'},
+  {x:-6.1,w:2.2,name:'Pizarrón informativo',type:'board'},
+  {x:-3.1,w:4.1,name:'Ventanillas de venta de libros',type:'books'},
+  {x:0.5,w:2.2,name:'Pizarrón informativo',type:'board'},
+  {x:3.6,w:2.7,name:'Secretaría',type:'door'},
+  {x:9.5,w:7.4,name:'Control Escolar',type:'schoolcontrol'}
+ ],
+ [
+  {x:-15.2,w:2.0,name:'Sala de Videoconferencias',type:'side'},
+  {x:-10.8,w:5.5,name:'Orientación Educativa',type:'orientation'},
+  {x:-3.4,w:2.3,name:'Conexión al Salón de Usos Múltiples',type:'door'},
+  {x:3.8,w:3.1,name:'Salón de Usos Múltiples',type:'door'},
+  {x:10.3,w:3.1,name:'Sala de Maestros',type:'door'}
+ ],
+ [
+  {x:-11.5,w:2.7,name:'Salón 5',type:'door'},
+  {x:-7.0,w:2.7,name:'Salón 4',type:'door'},
+  {x:-2.5,w:2.7,name:'Salón 3',type:'door'},
+  {x:2.0,w:2.7,name:'Salón 2',type:'door'},
+  {x:6.5,w:2.7,name:'Salón 1',type:'door'},
+  {x:11.1,w:3.2,name:'Salón de Cocina',type:'door'}
+ ]
+];
+// Cada hueco queda libre en el muro para que se vea la profundidad real.
+let activeHoles=null;
+function addOpening(x,w,y0,y1){
+ if(activeHoles)activeHoles.push({x0:x-w/2,x1:x+w/2,y0,y1});
+}
+function facadeWindow(g,x,y,w=1.05,h=1.1){
+ addOpening(x,w+.15,y-h/2-.075,y+h/2+.075);
+ box(g,w,h,.065,x,y,front+.22,glass);
+ for(const xx of [-w/2,w/2])box(g,.055,h+.07,.12,x+xx,y,front+.26,metal);
+ for(const yy of [-h/2,h/2])box(g,w+.08,.055,.12,x,y+yy,front+.26,metal);
+ box(g,.04,h,.09,x,y,front+.28,metal);
+}
+function facadeDoor(g,x,base,name,level,w=1.22){
+ addOpening(x,w+.19,base+.17,base+2.46);
+ const z=front+.28;
+ box(g,w+.15,2.2,.10,x,base+1.34,z,metal);
+ const door=box(g,w,2.08,.065,x,base+1.31,z+.075,glass);
+ door.userData={name,level:level+1};selectable.push(door);
+ box(g,.08,.07,.12,x+w*.32,base+1.25,z+.16,metal);
+ const sign=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(Math.max(w+.45,1.5),3.4),.42),signTexture(name));
+ sign.position.set(x,base+2.69,z+.13);g.add(sign);sign.userData=door.userData;selectable.push(sign);
+ return door;
+}
+// Fachada maciza hecha por franjas: se dejan vanos para puertas y cristales.
+function buildFrontWall(g,base,openings){
+ const xmin=-length/2, xmax=length/2, low=base+.12, high=base+2.66;
+ const edges=[xmin,xmax];
+ for(const r of openings){edges.push(Math.max(xmin,r.x0),Math.min(xmax,r.x1));}
+ edges.sort((a,b)=>a-b);
+ const xs=edges.filter((v,i)=>i===0||v-edges[i-1]>.001);
+ for(let i=0;i<xs.length-1;i++){
+  const x0=xs[i],x1=xs[i+1],mid=(x0+x1)/2;
+  if(x1-x0<.015)continue;
+  let spans=openings.filter(r=>mid>r.x0&&mid<r.x1)
+   .map(r=>[Math.max(low,r.y0),Math.min(high,r.y1)])
+   .filter(r=>r[1]>r[0]).sort((a,b)=>a[0]-b[0]);
+  let cursor=low;
+  for(const [a,b] of spans){
+   if(a>cursor+.015)box(g,x1-x0,a-cursor,.20,mid,(a+cursor)/2,front+.01,cream);
+   cursor=Math.max(cursor,b);
+  }
+  if(cursor<high-.015)box(g,x1-x0,high-cursor,.20,mid,(high+cursor)/2,front+.01,cream);
+ }
+}
+// Dos mostradores realmente remetidos, separados por una columna central.
+const counterWood=mat('#947450'),recessCream=mat('#e0cdaa'),windowDark=mat('#344e56',{transparent:true,opacity:.71,roughness:.25,side:THREE.DoubleSide});
+function curvedWall(g,cx,base,w){
+ const pos=[],idx=[],segments=16;
+ for(let i=0;i<=segments;i++){
+  const t=i/segments,xx=cx-w/2+t*w,u=2*t-1;
+  const zz=front-.72+.22*(1-u*u);
+  pos.push(xx,base+.37,zz,xx,base+1.16,zz);
+  if(i<segments){const k=i*2;idx.push(k,k+1,k+2,k+1,k+3,k+2);}
+ }
+ const geom=new THREE.BufferGeometry();geom.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geom.setIndex(idx);geom.computeVertexNormals();
+ const curved=new THREE.Mesh(geom,recessCream);curved.castShadow=true;curved.receiveShadow=true;g.add(curved);
+ for(let i=0;i<segments;i++){
+  const t=i/segments,t2=(i+1)/segments,u=2*t-1,u2=2*t2-1;
+  rod(g,[cx-w/2+t*w,base+1.18,front-.72+.22*(1-u*u)],
+        [cx-w/2+t2*w,base+1.18,front-.72+.22*(1-u2*u2)],.055,counterWood);
+ }
+}
+function controlNiche(g,cx,base,level){
+ const w=2.62,deep=.75,zBack=front-deep;
+ addOpening(cx,w+.04,base+.31,base+2.48);
+ // Laterales de la concavidad: no son una ventana pegada a una pared sólida.
+ for(const dx of [-w/2,w/2])box(g,.11,2.12,deep+.22,cx+dx,base+1.38,front-deep/2+.08,cream);
+ box(g,w,.11,deep+.18,cx,base+2.45,front-deep/2+.04,beams);
+ box(g,w,.11,deep+.18,cx,base+.33,front-deep/2+.04,slate);
+ // Acristalamiento y marcos ubicados al fondo del hueco.
+ const windowY=base+1.78;
+ const pane=box(g,w-.15,1.14,.045,cx,windowY,zBack+.07,windowDark);
+ pane.userData={name:'Control Escolar · ventanillas',level:level+1};selectable.push(pane);
+ for(const xx of [cx-w/2+.05,cx,cx+w/2-.05])box(g,.045,1.2,.075,xx,windowY,zBack+.13,metal);
+ for(const yy of [base+1.2,base+2.37])box(g,w-.09,.045,.075,cx,yy,zBack+.13,metal);
+ // Pared inferior curvada y borde de mostrador, como en la foto.
+ curvedWall(g,cx,base,w-.15);
+ const label=new THREE.Mesh(new THREE.PlaneGeometry(w-.2,.34),signTexture('VENTANILLAS','#34245e'));
+ label.position.set(cx,base+2.59,front+.16);g.add(label);
+ label.userData={name:'Control Escolar · ventanillas',level:level+1};selectable.push(label);
+}
+for(let level=0;level<3;level++){
+ const g=groups[level],base=level*floorH;
+ activeHoles=[];
+ box(g,length,.22,depth+2,0,base,0,brick);
+ box(g,length,.25,depth,0,base+3.45,-.1,beams);
+ box(g,length,2.95,.22,0,base+1.7,-depth/2,cream);
+ box(g,length,.75,.24,0,base+3.04,front,cream);
+ // Muros de los extremos y vigas: antes los costados estaban abiertos.
+ box(g,.22,3.22,depth-.12,-length/2+.11,base+1.72,-.07,cream);
+ box(g,.22,3.22,depth-.12,length/2-.11,base+1.72,-.07,cream);
+ // Vigas horizontales entre tramos de la bóveda.
+ for(let x=-16;x<=16;x+=4)box(g,.32,.44,depth+1,x,base+3.30,0,beams);
+ // Ventanas superiores corridas como en las fotografías.
+ for(let x=-14.1;x<15;x+=3.9){
+  box(g,3.35,.50,.045,x,base+2.98,front+.20,glass);
+  for(let dx of [-1.15,0,1.15])box(g,.04,.53,.08,x+dx,base+2.98,front+.25,metal);
+ }
+ for(const item of layouts[level]){
+  const x=item.x;
+  if(item.type==='board'){
+   const board=box(g,item.w,1.35,.08,x,base+1.60,front+.27,dark);
+   board.userData={name:item.name,level:level+1};selectable.push(board);
+   box(g,item.w+.12,.07,.12,x,base+2.31,front+.3,metal);
+  }else if(item.type==='official'){
+   // Oficialía: ventana a la izquierda y acceso a la derecha.
+   facadeWindow(g,x-.62,base+1.65,.72,1.12);
+   facadeDoor(g,x+.62,base,item.name,level,.92);
+  }else if(item.type==='books'){
+   // Dos ventanillas independientes, con proporciones similares a Dirección.
+   for(const dx of [-.86,.86])facadeWindow(g,x+dx,base+1.65,1.12,1.15);
+   const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.5,.4),signTexture(item.name));sign.position.set(x,base+2.64,front+.43);g.add(sign);sign.userData={name:item.name,level:level+1};selectable.push(sign);
+   for(const dx of [-.86,.86]){
+    const hit=box(g,1.10,1.13,.012,x+dx,base+1.65,front+.40,glass);
+    hit.userData={name:item.name,level:level+1};selectable.push(hit);
+   }
+  }else if(item.type==='schoolcontrol'){
+   // Las dos ventanas existentes de la izquierda NO cambian de lugar ni de tamaño.
+   for(const dx of [-2.65,-.88]){
+    facadeWindow(g,x+dx,base+1.73,1.12,.85);
+    box(g,1.22,.10,.27,x+dx,base+1.25,front+.44,slate);
+    const hit=box(g,1.10,.83,.012,x+dx,base+1.73,front+.40,glass);
+    hit.userData={name:'Control Escolar · ventana',level:level+1};selectable.push(hit);
+   }
+   // A su derecha, dos ventanillas de atención remetidas, antes de las escaleras.
+   controlNiche(g,10.78,base,level);
+   controlNiche(g,13.88,base,level);
+   // Columna gruesa entre ambas secciones como en la fotografía.
+   box(g,.40,2.55,.80,12.33,base+1.44,front-.30,beams);
+   const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.6,.40),signTexture('CONTROL ESCOLAR'));
+   sign.position.set(12.32,base+2.84,front+.35);g.add(sign);
+   sign.userData={name:item.name,level:level+1};selectable.push(sign);
+  }else if(item.type==='counter'){
+   facadeWindow(g,x,base+1.73,item.w,1.05);
+   box(g,item.w+.25,.13,.45,x,base+1.12,front+.52,slate);
+   const pane=g.children[g.children.length-2];
+   const hotspot=box(g,item.w,1.08,.012,x,base+1.74,front+.40,glass);
+   hotspot.userData={name:item.name,level:level+1};selectable.push(hotspot);
+   const sign=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(item.w,3.6),.4),signTexture(item.name));sign.position.set(x,base+2.64,front+.42);g.add(sign);sign.userData=hotspot.userData;selectable.push(sign);
+  }else if(item.type==='orientation'){
+   // Una ventana a la izquierda y una puerta a la derecha.
+   facadeWindow(g,x-1.25,base+1.65,1.1,1.15);
+   facadeDoor(g,x+1.35,base,item.name,level,1.25);
+   // Dos ventanas entre Orientación Educativa y la conexión a Usos Múltiples.
+   for(const wx of [-6.65,-5.15])facadeWindow(g,wx,base+1.65,1.0,1.15);
+  }else if(item.type==='office'){
+   facadeWindow(g,x-1.2,base+1.65,1.1,1.15);
+   facadeWindow(g,x+.1,base+1.65,1.0,1.15);
+   facadeDoor(g,x+1.55,base,item.name,level,1.35);
+  }else if(item.type==='side'){
+   // La entrada está en la cara lateral del saliente, mirando a quien recorre
+   // el pasillo de derecha a izquierda, NO hacia el patio.
+   addOpening(x,2.35,base+.18,base+2.55);
+   const nearX=x-1.11,farX=x+1.11;
+   box(g,.14,2.72,1.55,nearX,base+1.55,front+.83,cream);
+   box(g,2.35,.20,1.55,x,base+2.85,front+.83,beams);
+   // Pared frontal cerrada.
+   box(g,2.35,2.58,.12,x,base+1.48,front+1.58,cream);
+   // En el lateral derecho, vano real y puerta girada 90 grados.
+   const door=box(g,.065,2.09,1.22,farX+.03,base+1.31,front+.82,glass);
+   box(g,.12,2.25,.09,farX+.06,base+1.34,front+.18,metal);
+   box(g,.12,2.25,.09,farX+.06,base+1.34,front+1.46,metal);
+   box(g,.12,.10,1.37,farX+.06,base+2.43,front+.82,metal);
+   box(g,.16,.07,.08,farX+.17,base+1.30,front+.48,metal);
+   door.userData={name:item.name,level:level+1};selectable.push(door);
+   const sign=new THREE.Mesh(new THREE.PlaneGeometry(1.50,.38),signTexture('VIDEOCONFERENCIAS'));
+   sign.rotation.y=Math.PI/2;
+   sign.position.set(farX+.14,base+2.70,front+.82);
+   g.add(sign);sign.userData=door.userData;selectable.push(sign);
+  }else facadeDoor(g,x,base,item.name,level,Math.min(item.w,1.4));
+ }
+ buildFrontWall(g,base,activeHoles);
+ // Pilares vistos: no deben atravesar los vanos ni tapar ventanillas.
+ for(let x=-16;x<=16;x+=4){
+  const inOpening=activeHoles.some(r=>x+.19>r.x0&&x-.19<r.x1);
+  if(!inOpening)box(g,.34,3.48,.50,x,base+1.8,front-.10,beams);
+ }
+ activeHoles=null;
+ // Barandal rojo en el borde exterior del pasillo.
+const railZ=front+1.04;
+ // Un pequeño espacio al extremo derecho enlaza el pasillo con el descanso
+ // del núcleo de escaleras (el barandal no bloquea la salida).
+ for(let x=-16;x<=14.75;x+=1.65)rod(g,[x,base+.18,railZ],[x,base+1.36,railZ],.038,red);
+ for(let h of [.48,.82,1.15,1.37])rod(g,[-16,base+h,railZ],[14.75,base+h,railZ],.036,red);
+// Soportes de barandal diagonales y techo de ladrillo sugerido.
+for(let x=-15.5;x<=15.5;x+=4)rod(g,[x,base+.15,front+.12],[x+.25,base+1.18,railZ],.045,red);
+for(let z=-3.1;z<3.6;z+=.38)box(g,length,.013,.017,0,base+3.31,z,brickLine,false);
+}
+// NÚCLEO DE ESCALERAS (lado izquierdo) + ELEVADOR (lado derecho).
+// Referencia: esquema verde/negro del usuario; los colores reales son crema,
+// gris y barandales rojos. Los tres descansillos conectan con los 3 pisos.
+const stairGroup=new THREE.Group();scene.add(stairGroup);
+const leftStair=16.02,rightStair=18.48,stairBack=-1.42,stairFront=4.52;
+const stairLight=mat('#dfcba6');
+const railMat=red;
+// Cuatro columnas y pared posterior del cuerpo de escaleras.
+for(const sx of [leftStair,rightStair]){
+ for(const sz of [stairBack,stairFront]){
+  box(stairGroup,.19,11.45,.20,sx,5.67,sz,beams);
+ }
+}
+box(stairGroup,rightStair-leftStair,.20,stairFront-stairBack,
+ (leftStair+rightStair)/2,11.39,(stairBack+stairFront)/2,beams);
+box(stairGroup,rightStair-leftStair,10.85,.16,
+ (leftStair+rightStair)/2,5.53,stairBack,cream);
+// Cristalera lateral, enmarcada en metal: desde fuera se ven los peldaños.
+const stairGlass=mat('#7198a1',{transparent:true,opacity:.20,roughness:.16,metalness:.08,depthWrite:false,side:THREE.DoubleSide});
+for(let p=0;p<3;p++){
+ const base=p*floorH;
+ box(stairGroup,.06,2.55,stairFront-stairBack-.36,rightStair-.015,base+1.77,(stairFront+stairBack)/2,stairGlass,false);
+ box(stairGroup,.12,.18,stairFront-stairBack,rightStair,base+3.23,(stairFront+stairBack)/2,beams);
+ box(stairGroup,rightStair-leftStair,.27,.21,(leftStair+rightStair)/2,base+3.27,stairFront,beams);
+ // Cada nivel tiene una plataforma frontal continua con el pasillo.
+ box(stairGroup,rightStair-15.52,.18,1.08,(15.52+rightStair)/2,base+.06,4.24,slate);
+ box(stairGroup,.12,.80,.92,leftStair,base+.60,4.23,cream);
+ // Señal visible del piso para ubicar el núcleo vertical.
+ const placa=new THREE.Mesh(new THREE.PlaneGeometry(1.48,.34),signTexture('ESCALERAS','#34245e'));
+ placa.position.set(17.22,base+2.79,stairFront+.17);
+ stairGroup.add(placa);
+ placa.userData={name:'Escaleras · acceso al piso '+(p+1),level:p+1};selectable.push(placa);
+}
+// Dos tramos en U entre cada par de niveles, dentro del cuerpo vertical.
+for(let lev=0;lev<2;lev++){
+ const y0=lev*floorH;
+ const firstX=16.63,secondX=17.85;
+ for(let i=0;i<10;i++){
+  const z1=3.96-i*.43;
+  const y1=y0+.30+(i+.5)*.154;
+  box(stairGroup,1.02,.15,.46,firstX,y1,z1,slate);
+  const z2=-.05+i*.43;
+  const y2=y0+2.10+(i+.5)*.154;
+  box(stairGroup,1.02,.15,.46,secondX,y2,z2,slate);
+ }
+ // Descansillo posterior: conecta ambos tramos, sin saltos.
+ box(stairGroup,2.31,.18,1.29,17.24,y0+1.91,-.49,slate);
+ // Descansillo de llegada a la siguiente planta.
+ box(stairGroup,2.95,.18,1.10,17.00,y0+floorH,4.14,slate);
+ // Barandales siguiendo la pendiente de ambos tramos.
+ for(const sx of [16.04,17.17]){
+  rod(stairGroup,[sx,y0+1.1,4.13],[sx,y0+2.56,.10],.048,railMat);
+  rod(stairGroup,[sx,y0+.45,4.13],[sx,y0+1.95,.10],.023,railMat);
+ }
+ for(const sx of [17.29,18.40]){
+  rod(stairGroup,[sx,y0+2.76,-.05],[sx,y0+4.25,3.94],.048,railMat);
+  rod(stairGroup,[sx,y0+2.15,-.05],[sx,y0+3.62,3.94],.023,railMat);
+ }
+ // Protección roja del descanso posterior, visible de costado.
+ rod(stairGroup,[leftStair,y0+2.95,-1.0],[rightStair,y0+2.95,-1.0],.048,railMat);
+}
+// Barandales horizontales del corredor en cada encuentro con escaleras.
+for(let p=0;p<3;p++){
+ const y=p*floorH;
+ rod(stairGroup,[17.15,y+1.20,stairFront],[rightStair,y+1.20,stairFront],.047,railMat);
+ for(const sx of [17.15,rightStair])rod(stairGroup,[sx,y+.10,stairFront],[sx,y+1.24,stairFront],.036,railMat);
+}
+// Elevador a la derecha de las escaleras. Mantenemos vidrio y perfilería,
+// pero ajustamos ligeramente el núcleo para dejar sitio a ambos elementos.
+const elevX=20.25,elevZ=1.74,elevW=2.70,elevD=3.15;
+const elevFrame=mat('#687d86',{metalness:.45,roughness:.35});
+const elevGlass=mat('#416a78',{transparent:true,opacity:.42,roughness:.12,metalness:.08,side:THREE.DoubleSide,depthWrite:false});
+for(const sx of [elevX-elevW/2,elevX+elevW/2]){
+ for(const sz of [elevZ-elevD/2,elevZ+elevD/2]){
+  box(staticGroup,.16,11.60,.16,sx,5.70,sz,elevFrame);
+ }
+}
+for(let p=0;p<3;p++){
+ const y=p*floorH;
+ for(const dz of [-elevD/2,elevD/2]){
+  box(staticGroup,elevW-.2,3.21,.045,elevX,y+1.76,elevZ+dz,elevGlass,false);
+ }
+ for(const dx of [-elevW/2,elevW/2]){
+  box(staticGroup,.045,3.21,elevD-.2,elevX+dx,y+1.76,elevZ,elevGlass,false);
+ }
+ box(staticGroup,elevW,.17,elevD,elevX,y+.09,elevZ,elevFrame);
+ box(staticGroup,elevW,.13,elevD,elevX,y+3.58,elevZ,elevFrame);
+}
+box(staticGroup,elevW,.22,elevD,elevX,11.47,elevZ,elevFrame);
+const elevSign=new THREE.Mesh(new THREE.PlaneGeometry(2.24,.43),signTexture('ELEVADOR','#273d63'));
+elevSign.position.set(elevX,10.28,elevZ+elevD/2+.12);staticGroup.add(elevSign);elevSign.userData={name:'Elevador',level:0};selectable.push(elevSign);
+// Patio frontal, sendero y vegetación esquemática.
+box(staticGroup,43,.08,9,0,-.08,11,mat('#c2b8a3'),false);for(let i=-16;i<=16;i+=5){const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.16,.21,2.5,7),mat('#6b4b34'));trunk.position.set(i,1.25,14.5);staticGroup.add(trunk);const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(1.35,1),mat('#42794b'));crown.position.set(i,3.1,14.5);staticGroup.add(crown)}
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{if(walking)return;const rect=renderer.domElement.getBoundingClientRect();mouse.x=((e.clientX-rect.left)/rect.width)*2-1;mouse.y=-((e.clientY-rect.top)/rect.height)*2+1;ray.setFromCamera(mouse,camera);const hits=ray.intersectObjects(selectable.filter(o=>o.visible&&o.parent?.visible),false);if(hits.length){const obj=hits[0].object;const {name,level}=obj.userData;window.VocaUI?.selectSpace(name,level);highlightObject(obj.geometry.type==='BoxGeometry'?obj:null)}});
+function viewReset(){camera.position.set(22,17,29);controls.target.set(0,4,0);controls.update()}
+function changeFloor(v){const value=String(v);groups.forEach((g,i)=>g.visible=value==='all'||+value===i);window.VocaUI?.onFloorChange(value);if(value!=='all'){controls.target.set(0,+value*floorH+1.5,0);camera.position.set(15,+value*floorH+8,17);controls.update();}else viewReset();}
+function highlightObject(target){if(selected){selected.material=selected.userData.originalMaterial;selected=null;}if(target&&target.geometry.type==='BoxGeometry'){target.userData.originalMaterial=target.material;target.material=mat('#4ee7aa',{transparent:true,opacity:.72,emissive:'#145a47',emissiveIntensity:.5});selected=target;}}
+function focusPlace(item){if(walking)toggleWalk();const floor=item.floor===0?0:item.floor-1;changeFloor(item.floor===0?'all':floor);const y=(item.floor===0?1.9:floor*floorH+1.5);const tx=item.x;controls.target.set(tx,y,front+.10);camera.position.set(tx+5.2,y+5.1,front+11.0);controls.update();const name=item.modelName||item.name;let obj=selectable.find(x=>x.userData?.name===name&&(x.userData.level===item.floor||item.floor===0)&&x.geometry.type==='BoxGeometry');if(!obj&&name==='Control Escolar')obj=selectable.find(x=>x.userData?.name?.startsWith('Control Escolar')&&x.geometry.type==='BoxGeometry');highlightObject(obj);}
+let walking=false;const keys={};let yaw=0;
+function toggleWalk(){walking=!walking;controls.enabled=!walking;document.getElementById('walk').textContent=walking?'✕  Salir de recorrido':'▣  Recorrer';if(walking){changeFloor(0);camera.position.set(-13,1.7,5.1);yaw=0;camera.lookAt(-10,1.7,3.2);}else viewReset();document.getElementById('hint').textContent=walking?'Usa WASD o flechas · Pulsa «Salir de recorrido» para regresar':'Arrastra para girar · Pellizca para hacer zoom · Toca una puerta';}
+window.VocaAPI={changeFloor,focusPlace,reset:viewReset,toggleWalk};
+document.getElementById('reset').onclick=()=>{if(walking)toggleWalk();changeFloor('all');};
+document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{if(walking)toggleWalk();changeFloor(b.dataset.level)});
+document.getElementById('walk').onclick=toggleWalk;
+if('ontouchstart' in window&&innerWidth<700){document.getElementById('walk').disabled=true;document.getElementById('walk').title='Recorrido con teclado disponible desde computadora';}
+window.addEventListener('keydown',e=>{if(!walking||/input|textarea/i.test(document.activeElement?.tagName||''))return;keys[e.key.toLowerCase()]=true;if(e.key.startsWith('Arrow')||e.key===' ')e.preventDefault();});
+window.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false});
+let last=performance.now();function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/16.66,2);last=now;if(walking){if(keys.arrowleft)yaw+=.035*dt;if(keys.arrowright)yaw-=.035*dt;const forward=new THREE.Vector3(Math.sin(yaw),0,-Math.cos(yaw));const side=new THREE.Vector3(Math.cos(yaw),0,Math.sin(yaw));if(keys.w||keys.arrowup)camera.position.addScaledVector(forward,.085*dt);if(keys.s||keys.arrowdown)camera.position.addScaledVector(forward,-.085*dt);if(keys.a)camera.position.addScaledVector(side,-.085*dt);if(keys.d)camera.position.addScaledVector(side,.085*dt);camera.position.y=1.7;camera.lookAt(camera.position.clone().add(forward))}else controls.update();renderer.render(scene,camera)}
+requestAnimationFrame(animate);
+const resize=()=>{const w=Math.max(viewport.clientWidth,1),h=Math.max(viewport.clientHeight,1);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);};
+window.addEventListener('resize',resize);new ResizeObserver(resize).observe(viewport);
+window.VocaUI?.ready();
+</script>
+<script>
+(() => {
+  'use strict';
+  const spaces = [
+    {id:'oficialia',name:'Oficialía',floor:1,x:-14.1,icon:'🗂️',kind:'Administración',desc:'Área administrativa situada al extremo izquierdo de la fachada del primer nivel.'},
+    {id:'direccion',name:'Dirección y Coordinación',floor:1,x:-9.55,icon:'🏛️',kind:'Administración',desc:'Oficinas de Dirección y Coordinación del módulo, en planta baja.'},
+    {id:'pizarron-1',name:'Pizarrón informativo · izquierdo',modelName:'Pizarrón informativo',floor:1,x:-6.1,icon:'📌',kind:'Información',desc:'Pizarrón de avisos en el pasillo de planta baja.'},
+    {id:'libros',name:'Ventanillas de venta de libros',floor:1,x:-3.1,icon:'📚',kind:'Servicio escolar',desc:'Ventanillas de atención relacionadas con la venta de libros.'},
+    {id:'pizarron-2',name:'Pizarrón informativo · central',modelName:'Pizarrón informativo',floor:1,x:0.5,icon:'📌',kind:'Información',desc:'Segundo pizarrón informativo en planta baja.'},
+    {id:'secretaria',name:'Secretaría',floor:1,x:3.6,icon:'🗃️',kind:'Administración',desc:'Acceso a Secretaría, en el costado derecho del primer nivel.'},
+    {id:'control',name:'Control Escolar',floor:1,x:11.5,icon:'🎓',kind:'Servicio escolar',desc:'Área de Control Escolar con ventanas de atención y mostradores en planta baja.'},
+    {id:'videoconferencias',name:'Sala de Videoconferencias',floor:2,x:-15.2,icon:'📹',kind:'Aula y eventos',desc:'Sala con acceso lateral desde el pasillo. Su entrada se encuentra en el costado del saliente, no en la fachada frontal.'},
+    {id:'orientacion',name:'Orientación Educativa',floor:2,x:-9.45,icon:'💬',kind:'Servicio escolar',desc:'Área de Orientación Educativa, con ventana y acceso junto al pasillo del segundo nivel.'},
+    {id:'conexion',name:'Conexión al Salón de Usos Múltiples',floor:2,x:-3.4,icon:'🚪',kind:'Acceso',desc:'Acceso de conexión hacia el Salón de Usos Múltiples en el segundo piso.'},
+    {id:'sum',name:'Salón de Usos Múltiples',floor:2,x:3.8,icon:'🎤',kind:'Aula y eventos',desc:'Espacio para actividades y eventos en el segundo piso.'},
+    {id:'maestros',name:'Sala de Maestros',floor:2,x:10.3,icon:'👩‍🏫',kind:'Área académica',desc:'Sala de Maestros ubicada en el sector derecho del segundo piso.'},
+    {id:'salon5',name:'Salón 5',floor:3,x:-11.5,icon:'🚪',kind:'Salón',desc:'Salón del tercer piso, en el sector izquierdo del pasillo.'},
+    {id:'salon4',name:'Salón 4',floor:3,x:-7,icon:'🚪',kind:'Salón',desc:'Salón del tercer piso, a la derecha del Salón 5.'},
+    {id:'salon3',name:'Salón 3',floor:3,x:-2.5,icon:'🚪',kind:'Salón',desc:'Salón del tercer piso, en la zona central del pasillo.'},
+    {id:'salon2',name:'Salón 2',floor:3,x:2,icon:'🚪',kind:'Salón',desc:'Salón del tercer piso, hacia el sector derecho del pasillo.'},
+    {id:'salon1',name:'Salón 1',floor:3,x:6.5,icon:'🚪',kind:'Salón',desc:'Salón del tercer piso, a la derecha del Salón 2.'},
+    {id:'cocina',name:'Salón de Cocina',floor:3,x:11.1,icon:'🍳',kind:'Aula especializada',desc:'Salón de Cocina en el extremo derecho del tercer nivel.'},
+    {id:'escaleras',name:'Escaleras',floor:0,x:17.3,icon:'🪜',kind:'Circulación',desc:'Núcleo de escaleras con descansillos que conectan los tres pisos del edificio.'},
+    {id:'elevador',name:'Elevador',floor:0,x:20.25,icon:'🛗',kind:'Circulación',desc:'Elevador representado a la derecha de las escaleras. El modelo no confirma su estado operativo ni accesibilidad.'}
+  ];
+  const $ = id => document.getElementById(id);
+  const normalize = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const labelFloor = v => v === 0 ? 'Niveles 1, 2 y 3' : v === 1 ? 'Planta baja' : `Piso ${v}`;
+  const state = {query:'',filter:'all',selected:null};
+  const list = $('directory-list');
+  $('stat-spaces').textContent = spaces.length.toString().padStart(2,'0');
+  const clearBtn = $('clear-search');
+  const search = $('space-search');
+  function render() {
+    list.replaceChildren();
+    const visible = spaces.filter(s => (state.filter === 'all' || s.floor === 0 || String(s.floor) === state.filter) && normalize([s.name,s.kind,s.desc].join(' ')).includes(normalize(state.query)));
+    $('results-count').textContent = visible.length;
+    const levels = [1,2,3,0];
+    for (const floor of levels) {
+      const items = visible.filter(s => s.floor === floor);
+      if (!items.length) continue;
+      const head = document.createElement('div');head.className='group-title';
+      const name = document.createElement('span');name.textContent=floor===0?'CONEXIONES':labelFloor(floor).toUpperCase();
+      const ct = document.createElement('span');ct.textContent=items.length+' espacios';head.append(name,ct);list.appendChild(head);
+      for (const item of items) {
+        const button = document.createElement('button');button.type='button';button.className='space-item'+(state.selected?.id===item.id?' active':'');
+        button.setAttribute('aria-label',`${item.name}, ${labelFloor(item.floor)}`);
+        const symbol=document.createElement('span');symbol.className='space-symbol';symbol.textContent=item.icon;
+        const txt=document.createElement('span');txt.className='space-text';
+        const b=document.createElement('strong');b.textContent=item.name;
+        const sm=document.createElement('small');sm.textContent=labelFloor(item.floor)+' · '+item.kind;
+        txt.append(b,sm);
+        const ch=document.createElement('span');ch.className='chevron';ch.textContent='›';
+        button.append(symbol,txt,ch);
+        button.addEventListener('click',()=>{select(item,true);if(innerWidth<901)$('map-stage').scrollIntoView({behavior:'smooth',block:'center'});});
+        list.appendChild(button);
+      }
+    }
+    if(!visible.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No encontramos ese espacio. Intenta otro nombre o cambia el piso.';list.appendChild(empty);}
+  }
+  function select(item, focus=false) {
+    state.selected=item;
+    $('detail-emoji').textContent=item.icon;
+    $('detail-hero').textContent=item.floor===0?'Acceso entre pisos':labelFloor(item.floor);
+    $('detail-hero-sub').textContent=item.kind;
+    $('detail-name').textContent=item.name;
+    $('detail-description').textContent=item.desc;
+    $('detail-floor').textContent=labelFloor(item.floor);
+    $('detail-type').textContent=item.kind;
+    $('focus-space').disabled=false;
+    $('copy-space').disabled=false;
+    render();
+    if(focus && window.VocaAPI) window.VocaAPI.focusPlace(item);
+  }
+  function toast(message){const el=$('toast');el.textContent=message;el.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('visible'),2500);}
+  function updateFilter(floor, changeModel=true){state.filter=String(floor);document.querySelectorAll('[data-filter]').forEach(el=>el.classList.toggle('active',el.dataset.filter===state.filter));render();if(changeModel&&window.VocaAPI)window.VocaAPI.changeFloor(floor==='all'?'all':+floor-1);}
+  search.addEventListener('input',e=>{state.query=e.target.value;clearBtn.classList.toggle('visible',!!state.query);render();});
+  search.addEventListener('keydown',e=>{if(e.key==='Enter'){const first=list.querySelector('.space-item');if(first){first.click();search.blur();}}});
+  clearBtn.onclick=()=>{search.value='';state.query='';clearBtn.classList.remove('visible');render();search.focus();};
+  document.querySelectorAll('[data-filter]').forEach(el=>el.addEventListener('click',()=>updateFilter(el.dataset.filter)));
+  $('focus-space').onclick=()=>{if(!state.selected)return;if(window.VocaAPI){window.VocaAPI.focusPlace(state.selected);$('map-stage').scrollIntoView({behavior:'smooth',block:'center'});}else toast('El visor 3D aún no está disponible.');};
+  $('copy-space').onclick=async()=>{if(!state.selected)return;const v=`${state.selected.name} · ${labelFloor(state.selected.floor)} · Módulo A, Escuela Vocacional UdeG`;
+    try{await navigator.clipboard.writeText(v);toast('Ubicación copiada');}catch{const input=document.createElement('textarea');input.value=v;input.style.position='fixed';input.style.opacity='0';document.body.append(input);input.select();const ok=document.execCommand('copy');input.remove();toast(ok?'Ubicación copiada':'Selecciona el nombre para copiarlo');}
+  };
+  window.VocaUI = {
+    selectSpace:(name,level)=>{let item=spaces.find(s=>s.name===name&&(s.floor===level||s.floor===0));if(!item&&name.startsWith('Control Escolar'))item=spaces.find(s=>s.id==='control');if(!item&&name.startsWith('Escaleras'))item=spaces.find(s=>s.id==='escaleras');if(!item)item=spaces.find(s=>s.modelName===name&&s.floor===level);if(item)select(item,false);},
+    onFloorChange:v=>{document.querySelectorAll('[data-level]').forEach(b=>b.classList.toggle('active',b.dataset.level===String(v)));},
+    ready:()=>{setTimeout(()=>$('map-loading').classList.add('hidden'),250);},
+    failed:()=>{$('loading-text').textContent='No se pudo cargar el modelo 3D. Revisa tu conexión a internet; el directorio sigue disponible.';const ring=document.querySelector('.load-ring');if(ring)ring.style.display='none';}
+  };
+  render();
+  // Si el proveedor externo del motor 3D no responde, mantener el directorio operativo.
+  setTimeout(()=>{if(!window.VocaAPI)window.VocaUI.failed();},16000);
+})();
+
+</script>
+</body>
+</html>
